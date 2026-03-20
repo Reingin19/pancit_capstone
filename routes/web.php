@@ -8,12 +8,10 @@ use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 
-
 /*----------- Homepage -----------*/
 Route::get('/', function () {
     return view('glenn.homepage');
 })->name('homepage');
-
 
 // ============ STUDENT ROUTES ============
 Route::prefix('student')->group(function () {
@@ -22,10 +20,11 @@ Route::prefix('student')->group(function () {
     Route::post('/login', [AuthController::class, 'studentLogin'])->name('student.login.submit');
     
     // Register
+    Route::get('/register', [AuthController::class, 'showStudentRegisterForm'])->name('student.register.form');
     Route::post('/register', [AuthController::class, 'studentRegister'])->name('student.register');
     
-    // Dashboard (Protected)
-    Route::middleware('auth')->group(function () {
+    // Dashboard (Protected with role middleware)
+    Route::middleware(['auth', 'role:student'])->group(function () {
         Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
         Route::post('/logout', [AuthController::class, 'logout'])->name('student.logout');
     });
@@ -38,10 +37,11 @@ Route::prefix('teacher')->group(function () {
     Route::post('/login', [AuthController::class, 'teacherLogin'])->name('teacher.login.submit');
     
     // Register
+    Route::get('/register', [AuthController::class, 'showTeacherRegisterForm'])->name('teacher.register.form');
     Route::post('/register', [AuthController::class, 'teacherRegister'])->name('teacher.register');
     
-    // Dashboard (Protected)
-    Route::middleware('auth')->group(function () {
+    // Dashboard (Protected with role middleware)
+    Route::middleware(['auth', 'role:teacher'])->group(function () {
         Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('teacher.dashboard');
         Route::post('/logout', [AuthController::class, 'logout'])->name('teacher.logout');
     });
@@ -54,10 +54,11 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AuthController::class, 'adminLogin'])->name('admin.login.submit');
     
     // Register
+    Route::get('/register', [AuthController::class, 'showAdminRegisterForm'])->name('admin.register.form');
     Route::post('/register', [AuthController::class, 'adminRegister'])->name('admin.register');
     
-    // Dashboard (Protected)
-    Route::middleware('auth')->group(function () {
+    // Dashboard (Protected with role middleware)
+    Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
         Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
     });

@@ -15,6 +15,8 @@
     @vite([
         'resources/css/dashboard/student_dashboard.css', 
         'resources/css/dashboard/chatbot.css'
+
+
     ])
 </head>
 <body>

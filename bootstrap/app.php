@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
     $middleware->alias([
-        'student' => \App\Http\Middleware\StudentMiddleware::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
+
     ]);
 })
 

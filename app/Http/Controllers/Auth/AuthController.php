@@ -13,7 +13,7 @@ class AuthController extends Controller
     // ============ STUDENT ============
     public function showStudentLoginForm()
     {
-        return view('auth.student-login');
+        return view('login.student_login');
     }
 
     public function studentLogin(Request $request)
@@ -23,16 +23,13 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            
-            // Check if user is actually a student
+
             if ($user->role !== 'student') {
                 Auth::logout();
                 return back()->withErrors([
-                    'email' => 'This account is registered as a ' . ucfirst($user->role) . '. Please use the ' . $user->role . ' login portal.',
+                    'email' => "This account is registered as a {$user->role}. Please use the {$user->role} login portal.",
                 ]);
             }
 
@@ -40,9 +37,7 @@ class AuthController extends Controller
             return redirect()->route('student.dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Invalid email or password. Please check your credentials or create a new account.',
-        ])->onlyInput('email');
+        return back()->withErrors(['email' => 'Invalid email or password.'])->onlyInput('email');
     }
 
     public function studentRegister(Request $request)
@@ -51,31 +46,24 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-        ], [
-            'email.unique' => 'This email is already registered. Please use a different email or login.',
-            'password.confirmed' => 'Password confirmation does not match.',
-            'password.min' => 'Password must be at least 8 characters.',
         ]);
 
-        try {
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'role' => 'student',
-            ]);
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'student',
+        ]);
 
-            Auth::login($user);
-            return redirect()->route('student.dashboard')->with('success', 'Account created successfully!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['email' => 'An error occurred during signup. Please try again.'])->withInput();
-        }
+        // Do NOT auto-login
+        return redirect()->route('student.login')
+                         ->with('success', 'Account created successfully! Please log in.');
     }
 
     // ============ TEACHER ============
     public function showTeacherLoginForm()
     {
-        return view('auth.teacher-login');
+        return view('login.teacher_login');
     }
 
     public function teacherLogin(Request $request)
@@ -85,16 +73,13 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            
-            // Check if user is actually a teacher
+
             if ($user->role !== 'teacher') {
                 Auth::logout();
                 return back()->withErrors([
-                    'email' => 'This account is registered as a ' . ucfirst($user->role) . '. Please use the ' . $user->role . ' login portal.',
+                    'email' => "This account is registered as a {$user->role}. Please use the {$user->role} login portal.",
                 ]);
             }
 
@@ -102,9 +87,7 @@ class AuthController extends Controller
             return redirect()->route('teacher.dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Invalid email or password. Please check your credentials or create a new account.',
-        ])->onlyInput('email');
+        return back()->withErrors(['email' => 'Invalid email or password.'])->onlyInput('email');
     }
 
     public function teacherRegister(Request $request)
@@ -113,31 +96,23 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-        ], [
-            'email.unique' => 'This email is already registered. Please use a different email or login.',
-            'password.confirmed' => 'Password confirmation does not match.',
-            'password.min' => 'Password must be at least 8 characters.',
         ]);
 
-        try {
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'role' => 'teacher',
-            ]);
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'teacher',
+        ]);
 
-            Auth::login($user);
-            return redirect()->route('teacher.dashboard')->with('success', 'Account created successfully!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['email' => 'An error occurred during signup. Please try again.'])->withInput();
-        }
+        return redirect()->route('teacher.login')
+                         ->with('success', 'Account created successfully! Please log in.');
     }
 
     // ============ ADMIN ============
     public function showAdminLoginForm()
     {
-        return view('auth.admin-login');
+        return view('login.admin_login');
     }
 
     public function adminLogin(Request $request)
@@ -147,16 +122,13 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            
-            // Check if user is actually an admin
+
             if ($user->role !== 'admin') {
                 Auth::logout();
                 return back()->withErrors([
-                    'email' => 'This account is registered as a ' . ucfirst($user->role) . '. Please use the ' . $user->role . ' login portal.',
+                    'email' => "This account is registered as a {$user->role}. Please use the {$user->role} login portal.",
                 ]);
             }
 
@@ -164,16 +136,26 @@ class AuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Invalid email or password. Please check your credentials or contact the administrator.',
-        ])->onlyInput('email');
+        return back()->withErrors(['email' => 'Invalid email or password.'])->onlyInput('email');
     }
 
     public function adminRegister(Request $request)
     {
-        return back()->withErrors([
-            'email' => 'Admin registration is not allowed. Contact the system administrator.',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
         ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'admin',
+        ]);
+
+        return redirect()->route('admin.login')
+                         ->with('success', 'Account created successfully! Please log in.');
     }
 
     // ============ LOGOUT ============
@@ -182,6 +164,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect()->route('homepage');
     }
 }
