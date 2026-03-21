@@ -19,6 +19,7 @@
         'resources/css/dashboard/admin_dashboard.css',
         'resources/js/dashboard/admin_dashboard.js'
     ])
+    
 </head>
 <body>
 
@@ -99,7 +100,7 @@
         </nav>
 
         <div class="sidebar-logout">
-            <button class="sidebar-logout-btn" id="logout-btn-desktop">
+            <button class="sidebar-logout-btn" id="logout-btn-desktop" onclick="confirmLogout()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                      stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -130,7 +131,7 @@
                 </div>
                 <span class="brand-name">Math Learning Assistant</span>
             </div>
-            <button class="logout-btn" id="logout-btn-mobile">Logout</button>
+            <button class="logout-btn" id="logout-btn-mobile" onclick="confirmLogout()">Logout</button>
         </header>
 
         <!-- ===================== MAIN CONTENT ===================== -->
@@ -234,7 +235,7 @@
                 </section>
 
                 <div class="bottom-grid">
-                    <div class="action-card" onclick="navigate('users')">
+                    <div class="action-card">
                         <div class="action-icon-wrap blue-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -244,11 +245,11 @@
                         <div class="action-content">
                             <h3>User Management</h3>
                             <p>Manage accounts, roles, and permissions</p>
-                            <button class="primary-btn">Manage Users</button>
+                            <button class="primary-btn" onclick="navigate('users')">Manage Users</button>
                         </div>
                     </div>
 
-                    <div class="action-card" onclick="navigate('settings')">
+                    <div class="action-card">
                         <div class="action-icon-wrap green-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -257,11 +258,11 @@
                         <div class="action-content">
                             <h3>Roles &amp; Permissions</h3>
                             <p>Configure access levels and privileges</p>
-                            <button class="outline-btn">Configure Roles</button>
+                            <button class="outline-btn" onclick="navigate('settings')">Configure Roles</button>
                         </div>
                     </div>
 
-                    <div class="action-card" onclick="navigate('analytics')">
+                    <div class="action-card">
                         <div class="action-icon-wrap orange-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="20" x2="18" y2="10"/>
@@ -272,11 +273,11 @@
                         <div class="action-content">
                             <h3>Analytics</h3>
                             <p>View platform usage and performance metrics</p>
-                            <button class="primary-btn">View Analytics</button>
+                            <button class="primary-btn" onclick="navigate('analytics')">View Analytics</button>
                         </div>
                     </div>
 
-                    <div class="action-card" onclick="navigate('activity')">
+                    <div class="action-card">
                         <div class="action-icon-wrap purple-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
@@ -285,11 +286,11 @@
                         <div class="action-content">
                             <h3>Activity Tracking</h3>
                             <p>Monitor active users and engagement</p>
-                            <button class="primary-btn">Track Activity</button>
+                            <button class="primary-btn" onclick="navigate('activity')">Track Activity</button>
                         </div>
                     </div>
 
-                    <div class="action-card" onclick="navigate('content')">
+                    <div class="action-card">
                         <div class="action-icon-wrap green-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
@@ -299,11 +300,11 @@
                         <div class="action-content">
                             <h3>Content Management</h3>
                             <p>Manage learning modules and materials</p>
-                            <button class="outline-btn">Manage Content</button>
+                            <button class="outline-btn" onclick="navigate('content')">Manage Content</button>
                         </div>
                     </div>
 
-                    <div class="action-card" onclick="navigate('settings')">
+                    <div class="action-card">
                         <div class="action-icon-wrap orange-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="3"/>
@@ -327,7 +328,7 @@
                         <div class="action-content">
                             <h3>System Settings</h3>
                             <p>Configure platform preferences and features</p>
-                            <button class="primary-btn">System Settings</button>
+                            <button class="primary-btn" onclick="navigate('settings')">System Settings</button>
                         </div>
                     </div>
                 </div>
