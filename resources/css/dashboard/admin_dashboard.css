@@ -40,9 +40,6 @@ html, body {
     color: var(--text);
 }
 
-/* ================================
-   LAYOUT
-   ================================ */
 .app-shell {
     display: flex;
     flex-direction: column;
@@ -53,9 +50,6 @@ html, body {
     .app-shell { flex-direction: row; }
 }
 
-/* ================================
-   HEADER (mobile/tablet)
-   ================================ */
 .header {
     position: sticky;
     top: 0;
@@ -99,9 +93,6 @@ html, body {
 .logout-btn:hover { background: #fef2f2; border-color: #fca5a5; color: #ef4444; }
 .logout-btn:active { transform: scale(0.97); }
 
-/* ================================
-   DESKTOP SIDEBAR
-   ================================ */
 .sidebar { display: none; }
 
 @media (min-width: 1024px) {
@@ -182,9 +173,6 @@ html, body {
     .sidebar-logout-btn:hover { background: #fef2f2; border-color: #fca5a5; color: #ef4444; }
 }
 
-/* ================================
-   MAIN CONTENT AREA
-   ================================ */
 .main-wrapper { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 
 .main-content {
@@ -198,15 +186,9 @@ html, body {
 @media (min-width: 640px) { .main-content { max-width: 720px; padding: 28px 24px 90px; } }
 @media (min-width: 1024px) { .main-content { max-width: 960px; padding: 36px 36px 48px; } }
 
-/* ================================
-   PAGES
-   ================================ */
 .page { display: none; }
 .page.active { display: block; }
 
-/* ================================
-   HERO
-   ================================ */
 .hero-section { margin-bottom: 22px; }
 .welcome-title { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; line-height: 1.2; }
 .welcome-subtitle { font-size: 13px; color: var(--text-3); margin-top: 4px; }
@@ -217,9 +199,6 @@ html, body {
     .hero-section { margin-bottom: 28px; }
 }
 
-/* ================================
-   METRICS
-   ================================ */
 .metrics-scroll-wrap {
     margin: 0 -16px 22px;
     padding: 0 16px;
@@ -312,16 +291,10 @@ html, body {
     .icon-container svg { width: 22px; height: 22px; }
 }
 
-/* ================================
-   SECTION LABELS
-   ================================ */
 .section-label { font-size: 16px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; margin-bottom: 3px; }
 .section-sub { font-size: 12px; color: var(--text-3); margin-bottom: 14px; }
 @media (min-width: 1024px) { .section-label { font-size: 18px; } }
 
-/* ================================
-   MODULES CONTAINER / CARD
-   ================================ */
 .modules-container {
     background: var(--card);
     border: 1px solid var(--border);
@@ -337,9 +310,6 @@ html, body {
 .modules-container:hover { box-shadow: var(--shadow-md); }
 @media (min-width: 1024px) { .modules-container { padding: 24px; margin-bottom: 28px; } }
 
-/* ================================
-   LOG ITEMS
-   ================================ */
 .log-item {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -423,9 +393,6 @@ html, body {
 }
 .view-topics-btn:active { transform: scale(0.98); }
 
-/* ================================
-   ACTION CARDS
-   ================================ */
 .bottom-grid { display: flex; flex-direction: column; gap: 12px; }
 .bottom-grid .action-card { height: 100%; }
 
@@ -483,9 +450,6 @@ html, body {
     .action-card p  { font-size: 13px; margin-bottom: 16px; }
 }
 
-/* ================================
-   BUTTONS
-   ================================ */
 .primary-btn {
     display: block; width: 100%;
     background: var(--blue); color: white;
@@ -529,9 +493,6 @@ html, body {
     .primary-btn, .outline-btn, .danger-btn, .success-btn { font-size: 14px; padding: 11px; }
 }
 
-/* ================================
-   BOTTOM NAV (mobile/tablet only)
-   ================================ */
 .bottom-nav {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -565,9 +526,6 @@ html, body {
 .nav-dot { width: 0; height: 4px; background: var(--blue); border-radius: 50%; margin-top: 1px; transition: width 0.2s; }
 .nav-item.active .nav-dot { width: 4px; }
 
-/* ================================
-   TABLE
-   ================================ */
 .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead { background: var(--bg); }
@@ -589,9 +547,6 @@ tr:hover td { background: #fafbff; }
 .role-teacher { background: #dcfce7; color: #15803d; }
 .role-student { background: #fef3c7; color: #b45309; }
 
-/* ================================
-   TOOLBAR
-   ================================ */
 .toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
 .search-input {
     flex: 1; min-width: 180px;
@@ -616,9 +571,6 @@ tr:hover td { background: #fafbff; }
 }
 .add-btn:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
-/* ================================
-   TABLE ACTION BUTTONS
-   ================================ */
 .tbl-btn {
     padding: 5px 10px;
     border-radius: 7px; border: 1px solid var(--border);
@@ -629,9 +581,6 @@ tr:hover td { background: #fafbff; }
 .tbl-btn.edit:hover { background: var(--blue-light); border-color: var(--blue-mid); color: var(--blue); }
 .tbl-btn.del:hover  { background: var(--red-light);  border-color: #fca5a5; color: var(--red); }
 
-/* ================================
-   CHART
-   ================================ */
 .chart-container {
     background: var(--card);
     border: 1px solid var(--border);
@@ -664,9 +613,6 @@ tr:hover td { background: #fafbff; }
 .donut-info .donut-pct { font-size: 18px; font-weight: 800; color: var(--text); }
 .donut-info .donut-lbl { font-size: 11px; color: var(--text-3); }
 
-/* ================================
-   PROGRESS BAR
-   ================================ */
 .progress-row { margin-bottom: 12px; }
 .progress-label {
     display: flex; justify-content: space-between;
@@ -675,9 +621,6 @@ tr:hover td { background: #fafbff; }
 .progress-bar { height: 8px; border-radius: 99px; background: #e5e7eb; overflow: hidden; }
 .progress-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
 
-/* ================================
-   CONTENT CARDS
-   ================================ */
 .content-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -706,9 +649,6 @@ tr:hover td { background: #fafbff; }
 .content-meta  { font-size: 11px; color: var(--text-4); margin-bottom: 10px; }
 .content-actions { display: flex; gap: 6px; }
 
-/* ================================
-   ACTIVITY TIMELINE
-   ================================ */
 .activity-timeline { position: relative; padding-left: 24px; }
 .activity-timeline::before {
     content: ''; position: absolute;
@@ -726,9 +666,6 @@ tr:hover td { background: #fafbff; }
 .tl-sub   { font-size: 11px; color: var(--text-4); margin-top: 2px; }
 .tl-time  { font-size: 11px; color: var(--text-4); margin-top: 2px; font-style: italic; }
 
-/* ================================
-   SETTINGS
-   ================================ */
 .settings-section {
     background: var(--card);
     border: 1px solid var(--border);
@@ -789,9 +726,6 @@ tr:hover td { background: #fafbff; }
 .btn-save   { background: var(--blue); color: white; border: none; }
 .btn-save:hover { background: var(--blue-dark); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
-/* ================================
-   MODAL
-   ================================ */
 .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.4);
@@ -819,9 +753,6 @@ tr:hover td { background: #fafbff; }
 }
 .modal-close:hover { background: var(--red-light); border-color: #fca5a5; color: var(--red); }
 
-/* ================================
-   PAGINATION
-   ================================ */
 .pagination { display: flex; align-items: center; gap: 6px; margin-top: 14px; justify-content: flex-end; }
 .pg-btn {
     padding: 6px 12px; border: 1px solid var(--border); border-radius: 7px;
@@ -831,17 +762,11 @@ tr:hover td { background: #fafbff; }
 .pg-btn:hover, .pg-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
 .pg-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* ================================
-   EMPTY STATE
-   ================================ */
 .empty-state { text-align: center; padding: 40px 20px; color: var(--text-3); }
 .empty-icon  { font-size: 40px; margin-bottom: 10px; }
 .empty-state h4 { font-size: 15px; font-weight: 700; color: var(--text-2); margin-bottom: 4px; }
 .empty-state p  { font-size: 12px; }
 
-/* ================================
-   SWEETALERT2
-   ================================ */
 .swal2-popup { border-radius: 16px !important; font-family: 'Plus Jakarta Sans', sans-serif !important; box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important; }
 .swal2-title { font-weight: 700 !important; color: var(--text) !important; font-size: 20px !important; }
 .swal2-html-container { color: var(--text-3) !important; font-size: 14px !important; line-height: 1.6 !important; }
@@ -849,9 +774,6 @@ tr:hover td { background: #fafbff; }
 .swal2-cancel  { border-radius: 8px !important; padding: 10px 24px !important; font-family: 'Plus Jakarta Sans', sans-serif !important; font-weight: 700 !important; font-size: 14px !important; }
 .swal2-timer-progress-bar { background: var(--blue) !important; }
 
-/* ================================
-   ANIMATIONS
-   ================================ */
 @keyframes fadeInScale {
     from { opacity: 0; transform: scale(0.93); }
     to   { opacity: 1; transform: scale(1); }
@@ -865,9 +787,6 @@ tr:hover td { background: #fafbff; }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ================================
-   MOBILE SMALL
-   ================================ */
 @media (max-width: 380px) {
     .main-content { padding: 16px 12px 90px; }
     .welcome-title { font-size: 20px; }
