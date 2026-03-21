@@ -4,24 +4,38 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    /* ── Bottom Nav — active state ── */
-    document.querySelectorAll('.nav-item').forEach(btn => {
-        btn.addEventListener('click', function () {
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
+    /* ── Navigation ── */
+    function navigate(page) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
 
-    /* ── Sidebar Nav — active state ── */
-    document.querySelectorAll('.sidebar-item').forEach(btn => {
+        // Show target page
+        const target = document.getElementById('page-' + page);
+        if (target) target.classList.add('active');
+
+        // Update bottom nav active state
+        document.querySelectorAll('.nav-item[data-page]').forEach(b => {
+            b.classList.toggle('active', b.dataset.page === page);
+        });
+
+        // Update sidebar active state
+        document.querySelectorAll('.sidebar-item[data-page]').forEach(b => {
+            b.classList.toggle('active', b.dataset.page === page);
+        });
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Wire up all data-page buttons (sidebar + bottom nav)
+    document.querySelectorAll('[data-page]').forEach(btn => {
         btn.addEventListener('click', function () {
-            document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
+            navigate(this.dataset.page);
         });
     });
 
     /* ── Logout — SweetAlert2 confirmation ── */
-    function confirmLogout() {
+    window.confirmLogout = function () {
         Swal.fire({
             title: 'Are you sure?',
             text: 'You will be logged out of your account.',
@@ -33,14 +47,18 @@ document.addEventListener('DOMContentLoaded', function () {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById('logout-form').submit();
+                // Laravel: document.getElementById('logout-form').submit();
+                toast('success', 'Logged out successfully.');
             }
         });
-    }
+    };
 
-    ['logout-btn-mobile', 'logout-btn-desktop'].forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) btn.addEventListener('click', confirmLogout);
-    });
+    /* ── Toast utility ── */
+    window.toast = function (icon, title) {
+        Swal.fire({ icon, title, timer: 2000, timerProgressBar: true, showConfirmButton: false });
+    };
+
+    /* ── Expose navigate globally ── */
+    window.navigate = navigate;
 
 });
