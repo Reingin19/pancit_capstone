@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Learning Assistant - Student Dashboard</title>
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
+    <link rel="stylesheet" href="style.css">
     @vite([
         'resources/css/dashboard/student_dashboard.css', 
         'resources/css/dashboard/student_dashboard.js',
@@ -27,8 +23,7 @@
     <aside class="sidebar">
         <div class="sidebar-brand">
             <div class="logo-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white"
-                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                 </svg>
@@ -70,11 +65,6 @@
         </div>
     </aside>
 
-    <!-- Hidden Logout Form (Laravel) -->
-    <form id="logout-form" method="POST" action="{{ route('student.logout') }}" style="display:none;">
-        @csrf
-    </form>
-
     <!-- ================================
          MAIN WRAPPER
          ================================ -->
@@ -84,8 +74,7 @@
         <header class="header">
             <div class="logo-section">
                 <div class="logo-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white"
-                         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
                         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                     </svg>
@@ -489,28 +478,26 @@
                     <p class="welcome-subtitle">Answer all questions carefully. You can review before submitting.</p>
                 </div>
 
-                <!-- Start Screen -->
                 <div id="quiz-start-screen">
                     <section class="modules-container">
                         <div class="section-label">Test Instructions</div>
                         <div class="section-sub">Read before you begin</div>
-                        <div class="download-item" style="border:none; padding:0; margin-bottom:10px;">
+                        <div class="download-item" style="border:none; padding: 0; margin-bottom: 10px;">
                             <div class="download-icon blue-theme">📖</div>
                             <div class="download-info"><span class="download-name">This test covers all 3 modules.</span><span class="download-meta">Sequences · Polynomials · Advanced Equations</span></div>
                         </div>
-                        <div class="download-item" style="border:none; padding:0; margin-bottom:10px;">
+                        <div class="download-item" style="border:none; padding: 0; margin-bottom: 10px;">
                             <div class="download-icon orange-theme">❓</div>
                             <div class="download-info"><span class="download-name">10 multiple choice questions</span><span class="download-meta">Choose the best answer for each item</span></div>
                         </div>
-                        <div class="download-item" style="border:none; padding:0; margin-bottom:0;">
+                        <div class="download-item" style="border:none; padding: 0; margin-bottom: 0;">
                             <div class="download-icon green-theme">✅</div>
                             <div class="download-info"><span class="download-name">Review your answers before submitting</span><span class="download-meta">You can go back and change answers anytime</span></div>
                         </div>
                     </section>
-                    <button class="primary-btn" style="max-width:320px; margin:0 auto; display:block; padding:14px; font-size:15px;" onclick="startQuiz()">Begin Summative Test →</button>
+                    <button class="primary-btn" style="max-width:320px; margin: 0 auto; display:block; padding: 14px; font-size: 15px;" onclick="startQuiz()">Begin Summative Test →</button>
                 </div>
 
-                <!-- Question Screen -->
                 <div id="quiz-question-screen" style="display:none;">
                     <div class="modules-container" id="quiz-card">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -529,13 +516,12 @@
                     </div>
                 </div>
 
-                <!-- Result Screen -->
                 <div id="quiz-result-screen" style="display:none; text-align:center;">
                     <section class="modules-container">
                         <div id="quiz-result-emoji" style="font-size:56px; margin-bottom:12px;">🎉</div>
                         <div class="section-label" id="quiz-result-title">Test Complete!</div>
                         <div class="section-sub" id="quiz-result-sub">Here's how you did</div>
-                        <div style="font-size:52px; font-weight:800; color:var(--blue); letter-spacing:-2px; margin:16px 0;" id="quiz-result-score"></div>
+                        <div style="font-size:52px; font-weight:800; color:var(--blue); letter-spacing:-2px; margin: 16px 0;" id="quiz-result-score"></div>
                         <div style="font-size:14px; color:var(--text-3); margin-bottom:24px;" id="quiz-result-msg"></div>
                         <button class="primary-btn" style="max-width:240px; margin:0 auto;" onclick="retakeQuiz()">Retake Test</button>
                     </section>
@@ -579,13 +565,18 @@
 </nav>
 
 <!-- ================================================
-     CHATBOT PARTIAL — @include('dashboard.chatbot')
+     CHATBOT PARTIAL
      ================================================ -->
+
+<!-- Chat Window -->
 <div id="ai-chat-window" class="chat-window-compact">
+
+    <!-- Header -->
     <div class="chat-header">
         <div class="user-info">
             <div class="chat-avatar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
             </div>
@@ -597,6 +588,7 @@
         <button id="close-chat">&times;</button>
     </div>
 
+    <!-- Messages -->
     <div id="chat-content" class="chat-content">
         <div class="msg bot">
             <div class="msg-bubble">Hello! I'm here to help you with your math questions. Ask me about <strong>Sequences</strong>, <strong>Polynomials</strong>, or <strong>Functions</strong>.</div>
@@ -609,27 +601,25 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <div class="chat-footer">
         <div class="input-row">
             <input type="text" id="ai-input" placeholder="Type your question...">
             <button id="ai-send-btn" title="Send message">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13"></line>
                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                 </svg>
             </button>
         </div>
     </div>
+
 </div>
 
-<!-- SweetAlert2 JS -->
+<!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
-<!-- Dashboard & Chatbot JS -->
-{{-- @vite(['resources/js/dashboard/student_dashboard.js', 'resources/js/dashboard/chatbot.js', 'resources/js/dashboard/summative.js']) --}}
-<script src="student_dashboard.js"></script>
-<script src="chatbot.js"></script>
-<script src="summative.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
