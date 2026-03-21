@@ -6,11 +6,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;">
     <title>Math Learning Assistant - Admin Dashboard</title>
 
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- SweetAlert2 CSS via CDN (reliable fallback) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    {{-- Vite: compiles admin_dashboard.css + admin_dashboard.js --}}
     @vite([
         'resources/css/dashboard/admin_dashboard.css',
         'resources/js/dashboard/admin_dashboard.js'

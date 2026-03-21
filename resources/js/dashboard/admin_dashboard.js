@@ -7,10 +7,10 @@
  * Production:     npm run build
  */
 
-'use strict';
-
 import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
+// SweetAlert2 CSS is loaded via CDN link in the blade file
+
+'use strict';
 
 /* ============================================================
    SECURITY — XSS Prevention
