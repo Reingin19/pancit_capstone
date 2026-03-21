@@ -505,12 +505,37 @@ function updateHomeMetrics() {
 }
 
 // ============================================================
+//  EXPOSE FUNCTIONS TO GLOBAL SCOPE
+//  (required because 'use strict' + inline onclick handlers
+//   need functions accessible on window)
+// ============================================================
+
+window.navigate        = navigate;
+window.filterUsers     = filterUsers;
+window.openAddUser     = openAddUser;
+window.editUser        = editUser;
+window.saveUser        = saveUser;
+window.deleteUser      = deleteUser;
+window.filterContent   = filterContent;
+window.openAddContent  = openAddContent;
+window.editContent     = editContent;
+window.saveContent     = saveContent;
+window.deleteContent   = deleteContent;
+window.filterActivity  = filterActivity;
+window.savePlatformInfo= savePlatformInfo;
+window.saveSettings    = saveSettings;
+window.confirmDanger   = confirmDanger;
+window.openModal       = openModal;
+window.closeModal      = closeModal;
+window.confirmLogout   = confirmLogout;
+
+// ============================================================
 //  INIT
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Navigation – sidebar items
+    // Navigation – sidebar items & bottom nav
     document.querySelectorAll('[data-page]').forEach(btn => {
         btn.addEventListener('click', function () {
             navigate(this.dataset.page);
