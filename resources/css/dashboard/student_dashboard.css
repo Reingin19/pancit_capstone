@@ -1,10 +1,3 @@
-/**
- * student_dashboard.css
- * Path: resources/css/dashboard/student_dashboard.css
- *
- * Build with Vite: npm run dev / npm run build
- */
-
 /* ================================
    RESET & CSS VARIABLES
    ================================ */
@@ -22,8 +15,6 @@
     --green-light: #f0fdf4;
     --orange:      #f97316;
     --orange-light:#fff7ed;
-    --red:         #ef4444;
-    --red-light:   #fef2f2;
     --yellow:      #fbbf24;
     --bg:          #f4f6fb;
     --card:        #ffffff;
@@ -57,12 +48,6 @@ html, body {
 @media (min-width: 1024px) {
     .app-shell { flex-direction: row; }
 }
-
-/* ================================
-   PAGE SWITCHING
-   ================================ */
-.page { display: none; }
-.page.active { display: block; }
 
 /* ================================
    HEADER (mobile/tablet)
@@ -168,7 +153,6 @@ html, body {
     .sidebar-item:hover,
     .sidebar-item.active { background: var(--blue-light); color: var(--blue); }
 
-    /* AI Chat FAB in sidebar */
     .sidebar-fab { margin: 12px; }
 
     .sidebar-fab-btn {
@@ -351,7 +335,7 @@ html, body {
 @media (min-width: 1024px) { .section-label { font-size: 18px; } }
 
 /* ================================
-   MODULES CONTAINER
+   MODULES
    ================================ */
 .modules-container {
     background: var(--card);
@@ -368,9 +352,6 @@ html, body {
 .modules-container:hover { box-shadow: var(--shadow-md); }
 @media (min-width: 1024px) { .modules-container { padding: 24px; margin-bottom: 28px; } }
 
-/* ================================
-   MODULE ITEMS
-   ================================ */
 .module-item {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -386,47 +367,20 @@ html, body {
 .module-item:nth-child(1) { animation-delay: 0.10s; }
 .module-item:nth-child(2) { animation-delay: 0.18s; }
 .module-item:nth-child(3) { animation-delay: 0.26s; }
-.module-item:nth-child(4) { animation-delay: 0.34s; }
-.module-item:nth-child(5) { animation-delay: 0.42s; }
 @media (min-width: 1024px) { .module-item { padding: 16px; margin-bottom: 12px; } }
 
 .module-title-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-
 .status-icon { font-size: 13px; flex-shrink: 0; line-height: 1; }
-
-.module-name {
-    flex: 1;
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--text-2);
-    line-height: 1.3;
-}
+.module-name { flex: 1; font-weight: 600; font-size: 13px; color: var(--text-2); line-height: 1.3; }
 @media (min-width: 1024px) { .module-name { font-size: 14px; } }
 
 .percentage { font-size: 12px; font-weight: 700; color: var(--green); flex-shrink: 0; }
 .percentage.blue { color: var(--blue); }
 
-/* ================================
-   PROGRESS BAR
-   ================================ */
-.progress-bar-bg {
-    height: 5px;
-    background: var(--border);
-    border-radius: 99px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-.progress-fill {
-    height: 100%;
-    background: var(--green);
-    border-radius: 99px;
-    transition: width 0.6s ease;
-}
+.progress-bar-bg { height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 10px; }
+.progress-fill { height: 100%; background: var(--green); border-radius: 99px; transition: width 0.6s ease; }
 .progress-fill.blue { background: var(--blue); }
 
-/* ================================
-   VIEW TOPICS BUTTON
-   ================================ */
 .view-topics-btn {
     width: 100%;
     background: white;
@@ -549,14 +503,6 @@ html, body {
 }
 
 /* ================================
-   EMPTY STATE
-   ================================ */
-.empty-state { text-align: center; padding: 40px 20px; color: var(--text-3); }
-.empty-icon  { font-size: 40px; margin-bottom: 10px; }
-.empty-state h4 { font-size: 15px; font-weight: 700; color: var(--text-2); margin-bottom: 4px; }
-.empty-state p  { font-size: 12px; }
-
-/* ================================
    BOTTOM NAV (mobile/tablet only)
    ================================ */
 .bottom-nav {
@@ -592,7 +538,6 @@ html, body {
 .nav-dot { width: 0; height: 4px; background: var(--blue); border-radius: 50%; margin-top: 1px; transition: width 0.2s; }
 .nav-item.active .nav-dot { width: 4px; }
 
-/* FAB Chat Button */
 .fab { flex: 0 0 68px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
 .fab-btn {
