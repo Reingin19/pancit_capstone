@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;">
@@ -11,16 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <link rel="stylesheet" href="admin_dashboard.css">
-    <!-- Vite Assets -->
     @vite([
         'resources/css/dashboard/admin_dashboard.css',
         'resources/js/dashboard/admin_dashboard.js'
     ])
-    
 </head>
 <body>
-
 <div class="app-shell">
 
     <!-- DESKTOP SIDEBAR -->
@@ -68,7 +65,7 @@
         </div>
     </aside>
 
-    <!-- Laravel logout form -->
+    {{-- Laravel logout form --}}
     <form id="logout-form" method="POST" action="{{ route('admin.logout') }}" style="display:none;">
         @csrf
     </form>
@@ -480,6 +477,5 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-<script src="admin_dashboard.js"></script>
 </body>
 </html>

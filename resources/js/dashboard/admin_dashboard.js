@@ -1,3 +1,13 @@
+/**
+ * admin_dashboard.js
+ * Path: resources/js/dashboard/admin_dashboard.js
+ *
+ * Install SweetAlert2 via npm:  npm install sweetalert2
+ * Build with Vite:              npm run dev / npm run build
+ */
+
+import Swal from 'sweetalert2';
+
 'use strict';
 
 /* ============================================================
@@ -564,4 +574,3 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHome();
     renderUsers();
 });
-</script>
