@@ -2,13 +2,15 @@
  * admin_dashboard.js
  * Path: resources/js/dashboard/admin_dashboard.js
  *
- * Install SweetAlert2 via npm:  npm install sweetalert2
- * Build with Vite:              npm run dev / npm run build
+ * Install deps:   npm install sweetalert2
+ * Dev server:     npm run dev
+ * Production:     npm run build
  */
 
-import Swal from 'sweetalert2';
-
 'use strict';
+
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 /* ============================================================
    SECURITY — XSS Prevention
@@ -508,8 +510,7 @@ function confirmLogout() {
         if (r.isConfirmed) {
             Swal.fire({ icon:'success', title:'Logged out', text:'Goodbye!', timer:1500, timerProgressBar:true, showConfirmButton:false })
                 .then(() => {
-                    // Laravel: document.getElementById('logout-form').submit();
-                    toast('info', 'Connect to Laravel to complete logout.');
+                    document.getElementById('logout-form').submit();
                 });
         }
     });
