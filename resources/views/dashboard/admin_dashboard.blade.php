@@ -112,9 +112,9 @@
         </div>
     </aside>
 
-    <!-- Hidden logout form (Laravel) -->
-    <form id="logout-form" method="POST" action="/admin/logout" style="display:none;">
-        <!-- @csrf -->
+    <!-- Logout Form -->
+    <form id="logout-form" method="POST" action="{{ route('admin.logout') }}" style="display:none;">
+        @csrf
     </form>
 
     <div class="main-wrapper">

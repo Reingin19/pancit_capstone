@@ -468,8 +468,16 @@ function confirmLogout() {
         cancelButtonText: 'Cancel',
     }).then(r => {
         if (r.isConfirmed) {
-            // Swap the line below for: document.getElementById('logout-form').submit();
-            Swal.fire({ icon: 'success', title: 'Logged out', text: 'Goodbye!', timer: 1500, timerProgressBar: true, showConfirmButton: false });
+            Swal.fire({
+                icon: 'success',
+                title: 'Logged out',
+                text: 'Goodbye!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false
+            }).then(() => {
+                document.getElementById('logout-form').submit();
+            });
         }
     });
 }
