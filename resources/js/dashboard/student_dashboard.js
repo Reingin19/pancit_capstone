@@ -2,28 +2,28 @@
    STUDENT DASHBOARD — student_dashboard.js
    ================================ */
 
+/* ── Navigation (global so onclick attributes work) ── */
+function navigate(page) {
+    // hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // show target
+    const target = document.getElementById('page-' + page);
+    if (target) target.classList.add('active');
+
+    // bottom nav active
+    document.querySelectorAll('.nav-item[data-page]').forEach(b => {
+        b.classList.toggle('active', b.dataset.page === page);
+    });
+    // sidebar active
+    document.querySelectorAll('.sidebar-item[data-page]').forEach(b => {
+        b.classList.toggle('active', b.dataset.page === page);
+    });
+
+    // scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-
-    /* ── Navigation ── */
-    function navigate(page) {
-        // hide all pages
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        // show target
-        const target = document.getElementById('page-' + page);
-        if (target) target.classList.add('active');
-
-        // bottom nav active
-        document.querySelectorAll('.nav-item[data-page]').forEach(b => {
-            b.classList.toggle('active', b.dataset.page === page);
-        });
-        // sidebar active
-        document.querySelectorAll('.sidebar-item[data-page]').forEach(b => {
-            b.classList.toggle('active', b.dataset.page === page);
-        });
-
-        // scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
     // Wire up all data-page buttons
     document.querySelectorAll('[data-page]').forEach(btn => {
