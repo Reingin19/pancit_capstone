@@ -10,6 +10,7 @@
         'resources/css/dashboard/student_dashboard.css',
         'resources/js/dashboard/student_dashboard.js',
         'resources/css/dashboard/chatbot.css',
+        'resources/js/dashboard/chatbot.js',
     ])
 </head>
 <body>
