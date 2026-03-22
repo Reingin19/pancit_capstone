@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     @vite([
-        'resources/css/student_dashboard.css',
-        'resources/js/student_dashboard.js',
-        'resources/css/chatbot.css',
+        'resources/css/dashboard/student_dashboard.css',
+        'resources/js/dashboard/student_dashboard.js',
+        'resources/css/dashboard/chatbot.css',
     ])
 </head>
 <body>

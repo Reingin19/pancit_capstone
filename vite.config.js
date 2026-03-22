@@ -16,10 +16,6 @@ export default defineConfig({
                 'resources/css/login/student_login.css',
                 'resources/js/login/student_login.js',
 
-                //Chatbot
-                'resources/css/chatbot.css',
-                'resources/js/chatbot.js',
-
                 // Teacher
                 'resources/css/login/teacher_login.css',
                 'resources/js/login/teacher_login.js',
