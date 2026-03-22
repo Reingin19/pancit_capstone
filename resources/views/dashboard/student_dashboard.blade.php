@@ -6,13 +6,7 @@
     <title>Math Learning Assistant - Student Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    @vite([
-        'resources/css/student_dashboard.css',
-        'resources/js/student_dashboard.js',
-        'resources/css/chatbot.css',
-        'resources/js/chatbot.js'
-
-    ])
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -381,6 +375,7 @@
                 <section class="modules-container">
                     <div class="section-label">Module 1 — Sequences and Series</div>
                     <div class="section-sub">Practice worksheets and assessment sheets</div>
+
                     <div class="download-item">
                         <div class="download-icon green-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -393,6 +388,7 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         </button>
                     </div>
+
                     <div class="download-item">
                         <div class="download-icon green-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -410,6 +406,7 @@
                 <section class="modules-container">
                     <div class="section-label">Module 2 — Polynomials and Polynomial Equations</div>
                     <div class="section-sub">Practice worksheets and assessment sheets</div>
+
                     <div class="download-item">
                         <div class="download-icon orange-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -422,6 +419,7 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         </button>
                     </div>
+
                     <div class="download-item">
                         <div class="download-icon orange-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -439,6 +437,7 @@
                 <section class="modules-container">
                     <div class="section-label">Module 3 — Advanced Equations and Functions</div>
                     <div class="section-sub">Practice worksheets and assessment sheets</div>
+
                     <div class="download-item">
                         <div class="download-icon purple-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -451,6 +450,7 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         </button>
                     </div>
+
                     <div class="download-item">
                         <div class="download-icon purple-theme">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -477,20 +477,20 @@
                     <section class="modules-container">
                         <div class="section-label">Test Instructions</div>
                         <div class="section-sub">Read before you begin</div>
-                        <div class="download-item" style="border:none; padding:0; margin-bottom:10px;">
+                        <div class="download-item" style="border:none; padding: 0; margin-bottom: 10px;">
                             <div class="download-icon blue-theme">📖</div>
                             <div class="download-info"><span class="download-name">This test covers all 3 modules.</span><span class="download-meta">Sequences · Polynomials · Advanced Equations</span></div>
                         </div>
-                        <div class="download-item" style="border:none; padding:0; margin-bottom:10px;">
+                        <div class="download-item" style="border:none; padding: 0; margin-bottom: 10px;">
                             <div class="download-icon orange-theme">❓</div>
                             <div class="download-info"><span class="download-name">10 multiple choice questions</span><span class="download-meta">Choose the best answer for each item</span></div>
                         </div>
-                        <div class="download-item" style="border:none; padding:0; margin-bottom:0;">
+                        <div class="download-item" style="border:none; padding: 0; margin-bottom: 0;">
                             <div class="download-icon green-theme">✅</div>
                             <div class="download-info"><span class="download-name">Review your answers before submitting</span><span class="download-meta">You can go back and change answers anytime</span></div>
                         </div>
                     </section>
-                    <button class="primary-btn" style="max-width:320px; margin:0 auto; display:block; padding:14px; font-size:15px;" onclick="startQuiz()">Begin Summative Test →</button>
+                    <button class="primary-btn" style="max-width:320px; margin: 0 auto; display:block; padding: 14px; font-size: 15px;" onclick="startQuiz()">Begin Summative Test →</button>
                 </div>
 
                 <div id="quiz-question-screen" style="display:none;">
@@ -516,7 +516,7 @@
                         <div id="quiz-result-emoji" style="font-size:56px; margin-bottom:12px;">🎉</div>
                         <div class="section-label" id="quiz-result-title">Test Complete!</div>
                         <div class="section-sub" id="quiz-result-sub">Here's how you did</div>
-                        <div style="font-size:52px; font-weight:800; color:var(--blue); letter-spacing:-2px; margin:16px 0;" id="quiz-result-score"></div>
+                        <div style="font-size:52px; font-weight:800; color:var(--blue); letter-spacing:-2px; margin: 16px 0;" id="quiz-result-score"></div>
                         <div style="font-size:14px; color:var(--text-3); margin-bottom:24px;" id="quiz-result-msg"></div>
                         <button class="primary-btn" style="max-width:240px; margin:0 auto;" onclick="retakeQuiz()">Retake Test</button>
                     </section>
@@ -560,13 +560,18 @@
 </nav>
 
 <!-- ================================================
-     CHATBOT
+     CHATBOT PARTIAL
      ================================================ -->
+
+<!-- Chat Window -->
 <div id="ai-chat-window" class="chat-window-compact">
+
+    <!-- Header -->
     <div class="chat-header">
         <div class="user-info">
             <div class="chat-avatar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
             </div>
@@ -578,6 +583,7 @@
         <button id="close-chat">&times;</button>
     </div>
 
+    <!-- Messages -->
     <div id="chat-content" class="chat-content">
         <div class="msg bot">
             <div class="msg-bubble">Hello! I'm here to help you with your math questions. Ask me about <strong>Sequences</strong>, <strong>Polynomials</strong>, or <strong>Functions</strong>.</div>
@@ -590,21 +596,26 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <div class="chat-footer">
         <div class="input-row">
             <input type="text" id="ai-input" placeholder="Type your question...">
             <button id="ai-send-btn" title="Send message">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13"></line>
                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                 </svg>
             </button>
         </div>
     </div>
+
 </div>
 
-<!-- SweetAlert2 CDN (pwede ring i-npm install) -->
+<!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<!-- Dashboard JS -->
+<script src="dashboard.js"></script>
 
 </body>
 </html>
