@@ -147,7 +147,16 @@ document.addEventListener('DOMContentLoaded', function () {
             cancelButtonText: 'Cancel',
         }).then(result => {
             if (result.isConfirmed) {
-                document.getElementById('logout-form').submit();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logged out',
+                    text: 'Goodbye!',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                }).then(() => {
+                    document.getElementById('logout-form').submit();
+                });
             }
         });
     };
