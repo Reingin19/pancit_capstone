@@ -605,5 +605,10 @@
 <!-- SweetAlert2 CDN (pwede ring i-npm install) -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
+<!-- Logout Form -->
+<form id="logout-form" method="POST" action="{{ route('student.logout') }}" style="display:none;">
+    @csrf
+</form>
+
 </body>
 </html>
