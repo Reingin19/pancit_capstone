@@ -1,6 +1,8 @@
 /* ================================
-   CHATBOT — chatbot.js
+   resources/js/chatbot.js
    ================================ */
+
+import Swal from 'sweetalert2';
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -91,11 +93,10 @@ document.addEventListener('DOMContentLoaded', function () {
         chatContent.scrollTop = chatContent.scrollHeight;
     }
 
-    /* ── Welcome Message ── */
+    /* ── Welcome ── */
     function showWelcome() {
         if (chatContent.dataset.welcomed) return;
         chatContent.dataset.welcomed = '1';
-        // Welcome message handled by initial bot message in blade template
     }
 
     /* ── Send Message ── */
@@ -115,23 +116,45 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* ── Event Listeners ── */
-    document.getElementById('start-chat-btn')?.addEventListener('click', () => { openChat(); showWelcome(); });
+    document.getElementById('start-chat-btn')?.addEventListener('click',   () => { openChat(); showWelcome(); });
     document.getElementById('sidebar-chat-btn')?.addEventListener('click', () => { openChat(); showWelcome(); });
-    document.getElementById('fab-chat')?.addEventListener('click', () => { openChat(); showWelcome(); });
-
-    document.addEventListener('openChatbot', () => { openChat(); showWelcome(); });
+    document.getElementById('fab-chat')?.addEventListener('click',         () => { openChat(); showWelcome(); });
+    document.addEventListener('openChatbot',                               () => { openChat(); showWelcome(); });
 
     document.getElementById('close-chat')?.addEventListener('click', closeChat);
     document.getElementById('ai-send-btn')?.addEventListener('click', () => sendMessage());
 
-    input?.addEventListener('keypress', (e) => {
+    input?.addEventListener('keypress', e => {
         if (e.key === 'Enter') sendMessage();
     });
 
-    chatContent.addEventListener('click', (e) => {
+    chatContent.addEventListener('click', e => {
         if (e.target.classList.contains('quick-reply-btn')) {
             sendMessage(e.target.textContent.replace(/[^\w\s]/g, '').trim());
         }
     });
+
+    /* ── Logout — SweetAlert2 ── */
+    window.confirmLogout = function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will be logged out of your account.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2563eb',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout!',
+            cancelButtonText: 'Cancel',
+        }).then(result => {
+            if (result.isConfirmed) {
+                document.getElementById('logout-form').submit();
+            }
+        });
+    };
+
+    /* ── Toast utility ── */
+    window.toast = function (icon, title) {
+        Swal.fire({ icon, title, timer: 2000, timerProgressBar: true, showConfirmButton: false });
+    };
 
 });
