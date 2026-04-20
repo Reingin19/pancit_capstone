@@ -208,11 +208,17 @@
                     <div class="section-label">Module 1: Sequences and Series</div>
                     <div class="section-sub">0% complete · 0 of 6 topics done</div>
                     <ul class="topic-list">
-                        <li class="topic-item"><span class="topic-dot"></span>Arithmetic Sequences</li>
+                        <li class="topic-item" style="cursor: pointer;" onclick="openArithmeticModule()">
+    <span class="topic-dot"></span>Arithmetic Sequences
+</li>
                         <li class="topic-item"><span class="topic-dot"></span>Geometric Sequences</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Sum of Arithmetic Series</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Sum of Geometric Series</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Infinite Geometric Series</li>
+                        <li class="topic-item"><span class="topic-dot"></span>Fibonacci Sequences</li>
+                        <li class="topic-item"><span class="topic-dot"></span>Harmonic Sequences</li>
+                        <li class="topic-item"><span class="topic-dot"></span>Infinite Sequences</li>
+                
+                
+                
+                
                         <li class="topic-item"><span class="topic-dot"></span>Applications of Sequences</li>
                     </ul>
                 </section>
@@ -221,11 +227,10 @@
                     <div class="section-label">Module 2: Polynomials and Polynomial Equations</div>
                     <div class="section-sub">0% complete · 0 of 5 topics done</div>
                     <ul class="topic-list">
-                        <li class="topic-item"><span class="topic-dot"></span>Introduction to Polynomials</li>
+                        <li class="topic-item"><span class="topic-dot"></span>Division of Polynomials</li>
                         <li class="topic-item"><span class="topic-dot"></span>Operations on Polynomials</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Factoring Polynomials</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Polynomial Equations</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Remainder &amp; Factor Theorem</li>
+                        <li class="topic-item"><span class="topic-dot"></span>The Remainder Theorem and Factor Theorem</li>
+           
                     </ul>
                 </section>
 
@@ -601,6 +606,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- SweetAlert2 CDN (pwede ring i-npm install) -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>

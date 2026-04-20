@@ -68,37 +68,52 @@
                 </div>
 
                 <div id="signup-form-container" class="hidden">
-                    <form method="POST" action="{{ route('student.register') }}" autocomplete="off">
-                        @csrf
+    <form method="POST" action="{{ route('student.register') }}" autocomplete="off">
+        @csrf
 
-                        {{-- Dummy inputs para linlangin ang browser autofill --}}
-                        <input type="text" style="display:none" aria-hidden="true">
-                        <input type="email" style="display:none" aria-hidden="true">
-                        <input type="password" style="display:none" aria-hidden="true">
+        {{-- Dummy inputs para linlangin ang browser autofill --}}
+        <input type="text" style="display:none" aria-hidden="true">
+        <input type="email" style="display:none" aria-hidden="true">
+        <input type="password" style="display:none" aria-hidden="true">
 
-                        <div class="input-group">
-                            <label>Username</label>
-                            <input type="text" name="name" placeholder="Enter your Username" value="{{ old('name') }}" autocomplete="off" required>
-                        </div>
+        <div class="input-group">
+            <label>Student ID</label>
+            <input type="text" name="student_id" placeholder="e.g. 2024-0001" value="{{ old('student_id') }}" required autocomplete="off">
+        </div>
 
-                        <div class="input-group">
-                            <label>Email</label>
-                            <input type="email" name="email" placeholder="Enter your Email" value="{{ old('email') }}" autocomplete="off" required>
-                        </div>
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" name="name" placeholder="Enter your Username" value="{{ old('name') }}" autocomplete="off" required>
+        </div>
 
-                        <div class="input-group">
-                            <label>Password</label>
-                            <input type="password" name="password" placeholder="Enter your Password" autocomplete="new-password" required>
-                        </div>
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter your Email" value="{{ old('email') }}" autocomplete="off" required>
+        </div>
 
-                        <div class="input-group">
-                            <label>Confirm Password</label>
-                            <input type="password" name="password_confirmation" placeholder="Confirm your Password" autocomplete="new-password" required>
-                        </div>
+        <div class="input-group">
+            <label>Section</label>
+            <select name="section" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; font-size: 14px;">
+                <option value="" disabled selected>Select your Section</option>
+                <option value="1">Section 1</option>
+                <option value="2">Section 2</option>
+                <option value="3">Section 3</option>
+            </select>
+        </div>
 
-                        <button type="submit" class="btn-sign">Create Account</button>
-                    </form>
-                </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your Password" autocomplete="new-password" required>
+        </div>
+
+        <div class="input-group">
+            <label>Confirm Password</label>
+            <input type="password" name="password_confirmation" placeholder="Confirm your Password" autocomplete="new-password" required>
+        </div>
+
+        <button type="submit" class="btn-sign">Create Account</button>
+    </form>
+</div>
 
             </div>
         </div>

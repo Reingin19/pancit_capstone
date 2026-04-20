@@ -45,7 +45,7 @@ const Security = {
 /* ============================================================
    STATE — starts completely empty
    ============================================================ */
-let users    = [];
+let users = window.laravelUsers || [];
 let contents = [];
 let activity = [];
 
@@ -53,7 +53,123 @@ let userEditId    = null;
 let contentEditId = null;
 const USERS_PER_PAGE = 6;
 let userPage = 1;
+// Kukunin ang data mula sa storage, kung wala, empty array []
+let learningModules = JSON.parse(localStorage.getItem('my_learning_modules')) || [];
+/* ============================================================
+    MODULE MANAGEMENT (UPLOAD & RENDER)
+   ============================================================ */
 
+/** 1. Buksan ang Upload Modal */
+window.openAddContent = function() {
+    const modal = document.getElementById('addContentModal');
+    if (modal) modal.style.display = 'flex';
+};
+
+/** 2. Isara ang Upload Modal */
+window.closeAddContent = function() {
+    const modal = document.getElementById('addContentModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.getElementById('uploadModuleForm').reset();
+    }
+};
+
+/** 3. Handle the Upload Form Submission */
+// Function para sa handleUpload
+window.handleUpload = function(event) {
+    event.preventDefault();
+    
+    const title = document.getElementById('moduleTitle').value;
+    const subject = document.getElementById('moduleSubject').value;
+    const description = document.getElementById('moduleDescription').value;
+    const status = document.getElementById('moduleStatus').value;
+    const fileInput = document.getElementById('moduleFile');
+
+    if (!fileInput.files[0]) {
+        return Swal.fire('Error', 'Please select a file to upload.', 'error');
+    }
+
+    const newModule = {
+        id: Date.now(),
+        title: Security.escape(title),
+        subject: subject,
+        description: Security.escape(description),
+        status: status,
+        fileName: Security.escape(fileInput.files[0].name), // Kinukuha ang name ng in-upload
+        date: new Date().toLocaleDateString()
+    };
+
+    // Save to State & LocalStorage
+    learningModules.push(newModule);
+    localStorage.setItem('my_learning_modules', JSON.stringify(learningModules));
+
+    // UI Updates
+    closeAddContent();
+    renderModules();
+
+    Swal.fire('Success', 'Module uploaded successfully!', 'success');
+};
+
+// Function para sa renderModules
+window.renderModules = function() {
+    const grid = document.getElementById('content-grid');
+    if (!grid) return;
+
+    if (learningModules.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1">
+                <div class="empty-icon">📚</div>
+                <h4>No modules yet</h4>
+                <p>Click "+ Add Module" to create your first learning module.</p>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = learningModules.map(m => `
+        <div class="module-card" style="background:white; padding:1.5rem; border-radius:12px; border-left:5px solid #3b82f6; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+                <span class="role-badge role-teacher">${Security.escape(m.subject)}</span>
+                <span style="font-size:11px; color:#999">${m.status}</span>
+            </div>
+            <h3 style="margin:10px 0 5px 0; font-size:16px;">${Security.escape(m.title)}</h3>
+            <p style="font-size:12px; color:#666; margin-bottom:5px;">📄 ${Security.escape(m.fileName)}</p>
+            <p style="font-size:11px; color:#a0aec0; font-style:italic;">${Security.escape(m.description)}</p>
+            <div style="margin-top:15px; display:flex; gap:8px;">
+                <button class="tbl-btn edit" style="flex:1">Open File</button>
+                <button class="tbl-btn del" onclick="deleteModule(${m.id})">Delete</button>
+            </div>
+        </div>
+    `).join('');
+};
+/** 5. Burahin ang Module */
+window.deleteModule = function(id) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Mabubura ang module na ito sa listahan.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            learningModules = learningModules.filter(m => m.id !== id);
+            localStorage.setItem('my_learning_modules', JSON.stringify(learningModules));
+            renderModules();
+            Swal.fire('Deleted!', 'Ang module ay nabura na.', 'success');
+        }
+    });
+};
+
+/* ============================================================
+    INITIALIZATION
+   ============================================================ */
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Tawagin ang render functions pag-load ng page
+    if (typeof renderUsers === 'function') renderUsers();
+    renderModules();
+});
 /* ============================================================
    NAVIGATION
    ============================================================ */
@@ -133,19 +249,72 @@ function renderUsers() {
     if (!slice.length) {
         tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">👤</div><h4>No users found</h4><p>Try a different search or filter.</p></div></td></tr>`;
     } else {
-        tbody.innerHTML = slice.map((u, i) => `
-            <tr>
-                <td style="color:var(--text-4);font-size:12px">${(userPage - 1) * USERS_PER_PAGE + i + 1}</td>
-                <td><b>${Security.escape(u.name)}</b></td>
-                <td style="color:var(--text-3)">${Security.escape(u.email)}</td>
-                <td><span class="role-badge role-${Security.escape(u.role)}">${Security.escape(capitalize(u.role))}</span></td>
-                <td style="font-size:12px;color:var(--text-3)">${Security.escape(u.joined)}</td>
-                <td><span class="status-badge ${u.status === 'Active' ? 'badge-good' : 'badge-danger'}">${Security.escape(u.status)}</span></td>
-                <td>
-                    <button class="tbl-btn edit" onclick="editUser(${u.id})">Edit</button>
-                    <button class="tbl-btn del"  onclick="deleteUser(${u.id})">Delete</button>
-                </td>
-            </tr>`).join('');
+       tbody.innerHTML = slice.map((u, i) => {
+    // 1. Logic para sa Status Badge
+   const statusClass = (u.status === 'approved' || u.status === 'Active') ? 'badge-good' : 'badge-danger';
+
+    // 2. Logic para sa Approve Button (Lalabas lang kung hindi pa approved)
+    const approveBtn = (u.status !== 'Approved' && u.status !== 'Active') 
+        ? `<button class="tbl-btn edit" style="background:var(--success);color:white" onclick="approveUser(${u.id})">Approve</button>` 
+        : '';
+
+    return `
+        <tr>
+            <td style="color:var(--text-4);font-size:12px">${(userPage - 1) * USERS_PER_PAGE + i + 1}</td>
+            <td><b>${Security.escape(u.name)}</b></td>
+            <td style="color:var(--text-3)">${Security.escape(u.email)}</td>
+            <td><span class="role-badge role-${Security.escape(u.role)}">${Security.escape(capitalize(u.role))}</span></td>
+            <td style="font-size:12px;color:var(--text-3)">${Security.escape(u.joined)}</td>
+            <td><span class="status-badge ${statusClass}">${Security.escape(u.status)}</span></td>
+            <td>
+                ${approveBtn}
+                <button class="tbl-btn edit" onclick="editUser(${u.id})">Edit</button>
+                <button class="tbl-btn del"  onclick="deleteUser(${u.id})">Delete</button>
+            </td>
+        </tr>`;
+}).join('');
+window.approveUser = function(userId) {
+    // Siguraduhin na gumagana ang Swal
+    Swal.fire({
+        title: 'Approve User?',
+        text: "Gagawing active ang account na ito.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, approve!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/users/${userId}/approve`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(async res => {
+                const data = await res.json();
+                if (res.ok) {
+                    Swal.fire('Approved!', data.message || 'Active na ang user.', 'success');
+                    
+                    // I-update ang UI nang hindi nire-refresh ang page
+                    const user = users.find(u => u.id == userId);
+                    if (user) {
+                        user.status = 'approved'; // Dapat small letter 'approved'
+                    }
+                    renderUsers(); 
+                } else {
+                    Swal.fire('Error', data.message || 'Hindi ma-approve ang user.', 'error');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire('Error', 'Connection failed.', 'error');
+            });
+        }
+    });
+};
     }
 
     // Pagination
@@ -558,7 +727,7 @@ Object.assign(window, {
 /* ============================================================
    INIT
    ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => { renderUsers();
     // Sidebar + bottom nav
     document.querySelectorAll('[data-page]').forEach(btn => {
         btn.addEventListener('click', () => navigate(btn.dataset.page));

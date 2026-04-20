@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Math Learning Assistant - Admin Dashboard</title>
 
     <!-- Fonts -->
@@ -292,36 +293,82 @@
                 </div>
             </div>
 
-            <!-- CONTENT PAGE -->
-            <div class="page" id="page-content">
-                <div class="hero-section">
-                    <h1 class="welcome-title">Content Management</h1>
-                    <p class="welcome-subtitle">Manage learning modules, topics, and materials</p>
-                </div>
-                <div class="modules-container">
-                    <div class="section-label">Learning Modules</div>
-                    <div class="section-sub">All published and draft modules</div>
-                    <div class="toolbar">
-                        <input type="text" class="search-input" id="content-search" placeholder="🔍  Search modules…" oninput="filterContent()" maxlength="100" autocomplete="off">
-                        <select class="filter-select" id="content-subject-filter" onchange="filterContent()">
-                            <option value="">All Subjects</option>
-                            <option value="Algebra">Algebra</option>
-                            <option value="Geometry">Geometry</option>
-                            <option value="Calculus">Calculus</option>
-                            <option value="Statistics">Statistics</option>
-                        </select>
-                        <button class="add-btn" onclick="openAddContent()">+ Add Module</button>
-                    </div>
-                    <div class="content-grid" id="content-grid">
-                        <div class="empty-state" style="grid-column:1/-1">
-                            <div class="empty-icon">📚</div>
-                            <h4>No modules yet</h4>
-                            <p>Click "+ Add Module" to create your first learning module.</p>
-                        </div>
-                    </div>
+           <div class="page" id="page-content">
+    <div class="hero-section">
+        <h1 class="welcome-title">Content Management</h1>
+        <p class="welcome-subtitle">Manage learning modules, topics, and materials</p>
+    </div>
+    
+    <div class="modules-container">
+        <div class="section-label">Learning Modules</div>
+        <div class="section-sub">All published and draft modules</div>
+        
+        <div class="toolbar">
+            <input type="text" class="search-input" id="content-search" placeholder="🔍 Search modules…" oninput="filterContent()" maxlength="100" autocomplete="off">
+            <select class="filter-select" id="content-subject-filter" onchange="filterContent()">
+                <option value="">Topics</option>
+                <option value="Sequences and Series">Sequences and Series</option>
+                <option value="Polynomials and Polynomial Equations">Polynomials and Polynomial Equations</option>
+                <option value="Advanced Equations and Functions">Advanced Equations and Functions</option>
+            </select>
+            <button class="add-btn" onclick="openAddContent()">+ Add Module</button>
+        </div>
+
+        <div class="content-grid" id="content-grid">
+            </div>
+    </div>
+</div>
+
+<div id="addContentModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; backdrop-filter: blur(5px);">
+    <div class="modal-content" style="background:white; padding:2rem; border-radius:15px; width:90%; max-width:450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+            <h2 style="font-size:20px; font-weight:700; color:#1a202c;">Add New Module</h2>
+            <button onclick="closeAddContent()" style="background:none; border:none; font-size:20px; cursor:pointer;">&times;</button>
+        </div>
+        
+        <form id="uploadModuleForm" onsubmit="handleUpload(event)">
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; font-size:12px; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Module Title</label>
+                <input type="text" id="moduleTitle" class="search-input" style="width:100%; border:1px solid #e2e8f0; padding:10px; border-radius:8px;" placeholder="e.g. Introduction to Algebra" required>
+            </div>
+
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; font-size:12px; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Subject</label>
+                <select id="moduleSubject" class="filter-select" style="width:100%; border:1px solid #e2e8f0; padding:10px; border-radius:8px;" required>
+                    <option value="Sequences and Series">Sequences and Series</option>
+                <option value="Polynomials and Polynomial Equations">Polynomials and Polynomial Equations</option>
+                <option value="Advanced Equations and Functions">Advanced Equations and Functions</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; font-size:12px; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Description</label>
+                <textarea id="moduleDescription" class="search-input" style="width:100%; height:80px; border:1px solid #e2e8f0; padding:10px; border-radius:8px;" placeholder="Brief description of this module..."></textarea>
+            </div>
+
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; font-size:12px; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Upload Module File</label>
+                <div style="border: 2px dashed #cbd5e0; padding: 15px; border-radius: 10px; text-align: center; background: #f8fafc;">
+                    <input type="file" id="moduleFile" style="width:100%; cursor:pointer;" required>
+                    <small style="display:block; color:#718096; margin-top:5px;">Accepted: PDF, DOCX, MP4, or Images</small>
                 </div>
             </div>
 
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block; font-size:12px; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Status</label>
+                <select id="moduleStatus" class="filter-select" style="width:100%; border:1px solid #e2e8f0; padding:10px; border-radius:8px;">
+                    <option value="Published">Published</option>
+                    <option value="Draft">Draft</option>
+                </select>
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:flex-end;">
+                <button type="button" class="tbl-btn edit" onclick="closeAddContent()" style="background:#edf2f7; color:#4a5568; padding: 10px 20px; border-radius:8px; border:none; cursor:pointer;">Cancel</button>
+                <button type="submit" class="add-btn" style="width:auto; padding:0 25px; border-radius:8px;">Save Module</button>
+            </div>
+        </form>
+    </div>
+</div>
             <!-- ACTIVITY PAGE -->
             <div class="page" id="page-activity">
                 <div class="hero-section">
@@ -465,7 +512,7 @@
         </div>
         <div class="field-row"><label>Module Title</label><input type="text" id="c-title" placeholder="e.g. Introduction to Algebra" maxlength="120" autocomplete="off"></div>
         <div class="field-row"><label>Subject</label>
-            <select id="c-subject"><option>Algebra</option><option>Geometry</option><option>Calculus</option><option>Statistics</option></select>
+            <select id="c-subject"><option>Sequences and Series</option><option>Polynomials and Polynomial Equations</option><option>Advanced Equations and Functions</option><option>Statistics</option></select>
         </div>
         <div class="field-row"><label>Description</label><textarea id="c-desc" rows="3" placeholder="Brief description of this module…" maxlength="500"></textarea></div>
         <div class="field-row"><label>Status</label>
@@ -477,6 +524,42 @@
         </div>
     </div>
 </div>
+<script>
+    function approveUser(userId) {
+        if (confirm('Are you sure you want to approve this user?')) {
+            fetch(`/admin/users/${userId}/approve`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // Ito ang sasalo kung may SQL error (tulad ng Truncated data)
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Binago natin mula data.success papuntang data.message
+                alert(data.message || 'User approved successfully!');
+                location.reload(); 
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // I-alert ang mismong error message mula sa server
+                alert('Error: ' + (error.message || 'Something went wrong'));
+            });
+        }
+    }
+</script>
 
+<script>
+    window.laravelUsers = @json($allUsers);
+</script>
+
+<script src="{{ asset('js/dashboard/admin_dashboard.js') }}"></script>
 </body>
 </html>

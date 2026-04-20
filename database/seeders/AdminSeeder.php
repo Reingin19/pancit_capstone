@@ -16,6 +16,7 @@ class AdminSeeder extends Seeder
             'email' => 'tardio@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'admin',
+            'status' => 'approved', // Add this line
         ]);
         User::create([
             'name' => 'Admin',

@@ -7,7 +7,9 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminController;
 
+Route::post('/admin/users/{id}/approve', [AdminDashboardController::class, 'approveUser'])->name('admin.users.approve');
 /*----------- Homepage -----------*/
 Route::get('/', function () {
     return view('glenn.homepage');
@@ -18,11 +20,11 @@ Route::prefix('student')->group(function () {
     // Login
     Route::get('/login', [AuthController::class, 'showStudentLoginForm'])->name('student.login');
     Route::post('/login', [AuthController::class, 'studentLogin'])->name('student.login.submit');
-    
+
     // Register
     Route::get('/register', [AuthController::class, 'showStudentRegisterForm'])->name('student.register.form');
     Route::post('/register', [AuthController::class, 'studentRegister'])->name('student.register');
-    
+
     // Dashboard (Protected with role middleware)
     Route::middleware(['auth', 'role:student'])->group(function () {
         Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
@@ -35,11 +37,11 @@ Route::prefix('teacher')->group(function () {
     // Login
     Route::get('/login', [AuthController::class, 'showTeacherLoginForm'])->name('teacher.login');
     Route::post('/login', [AuthController::class, 'teacherLogin'])->name('teacher.login.submit');
-    
+
     // Register
     Route::get('/register', [AuthController::class, 'showTeacherRegisterForm'])->name('teacher.register.form');
     Route::post('/register', [AuthController::class, 'teacherRegister'])->name('teacher.register');
-    
+
     // Dashboard (Protected with role middleware)
     Route::middleware(['auth', 'role:teacher'])->group(function () {
         Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('teacher.dashboard');
@@ -49,17 +51,22 @@ Route::prefix('teacher')->group(function () {
 
 // ============ ADMIN ROUTES ============
 Route::prefix('admin')->group(function () {
-    // Login
+    
+    // 1. LOGIN & REGISTER (Public - dapat nasa labas ng auth middleware)
     Route::get('/login', [AuthController::class, 'showAdminLoginForm'])->name('admin.login');
     Route::post('/login', [AuthController::class, 'adminLogin'])->name('admin.login.submit');
-    
-    // Register
+
     Route::get('/register', [AuthController::class, 'showAdminRegisterForm'])->name('admin.register.form');
     Route::post('/register', [AuthController::class, 'adminRegister'])->name('admin.register');
-    
-    // Dashboard (Protected with role middleware)
+
+    // 2. DASHBOARD & ACTIONS (Protected - kailangan naka-login bilang admin)
     Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
         Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+        // Route para sa AJAX Approve button
+        Route::post('/users/{id}/approve', [AdminDashboardController::class, 'approveUser'])->name('admin.users.approve');
+        
+        Route::get('/pending', [AuthController::class, 'pendingUsers'])->name('admin.pending');
     });
 });

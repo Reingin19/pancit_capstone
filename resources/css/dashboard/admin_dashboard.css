@@ -800,3 +800,23 @@ tr:hover td { background: #fafbff; }
     .metric-card { width: 148px; }
     .metric-value { font-size: 24px; }
 }
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.module-card {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    border-left: 5px solid var(--accent); /* Naka-depende sa kulay ng dashboard mo */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}

@@ -1,6 +1,4 @@
-/* ================================
-   resources/js/student_dashboard.js
-   ================================ */
+import { supabase } from './supabaseClient';
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -20,6 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
             b.classList.toggle('active', b.dataset.page === page);
         });
 
+        if (page === 'modules') {
+            loadModulesForStudent();
+        }
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -29,125 +31,116 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Expose globally for Blade inline onclick attributes
     window.navigate = navigate;
+}); 
 
-    /* ================================
-       SUMMATIVE TEST — Quiz Logic
-       ================================ */
-    const quizQuestions = [
-        { q: "In an arithmetic sequence, the first term is 3 and the common difference is 4. What is the 6th term?",     choices: ["19","23","21","17"],                                                                                          answer: 1 },
-        { q: "What is the sum of the first 5 terms of the geometric sequence 2, 6, 18, 54, ...?",                        choices: ["162","242","182","122"],                                                                                      answer: 1 },
-        { q: "Which of the following is a polynomial expression?",                                                        choices: ["x⁻² + 3","√x + 2","3x³ − 2x + 1","1/x + 5"],                                                              answer: 2 },
-        { q: "What is the remainder when P(x) = x³ − 2x² + x − 5 is divided by (x − 2)?",                              choices: ["-3","-1","3","1"],                                                                                            answer: 0 },
-        { q: "Factor completely: x² − 9",                                                                                choices: ["(x−3)²","(x+3)(x−3)","(x−9)(x+1)","(x+3)²"],                                                              answer: 1 },
-        { q: "Which is the correct form of the quadratic formula?",                                                       choices: ["x = (b ± √(b²−4ac)) / 2a","x = (−b ± √(b²+4ac)) / 2a","x = (−b ± √(b²−4ac)) / 2a","x = (−b ± √(b²−4ac)) / a"], answer: 2 },
-        { q: "Solve for x: 2^x = 32",                                                                                    choices: ["4","5","6","3"],                                                                                              answer: 1 },
-        { q: "What is log₂(64)?",                                                                                        choices: ["5","8","6","7"],                                                                                              answer: 2 },
-        { q: "If f(x) = 2x + 3, what is f(4)?",                                                                         choices: ["10","11","12","9"],                                                                                            answer: 1 },
-        { q: "An infinite geometric series converges when the common ratio r satisfies:",                                 choices: ["r > 1","|r| < 1","r = 1","r < 0"],                                                                            answer: 1 },
-    ];
+/* ==========================================
+   STUDENT SIDE: DYNAMIC DASHBOARD (STORAGE)
+   ========================================== */
+window.studentModules = [];
 
-    let quizCurrent = 0;
-    let quizAnswers = new Array(quizQuestions.length).fill(null);
-    let quizScore   = 0;
+async function loadModulesForStudent() {
+    const detailedList = document.getElementById('dynamic-detailed-modules');
+    if (!detailedList) return;
 
-    function startQuiz() {
-        quizCurrent = 0;
-        quizAnswers = new Array(quizQuestions.length).fill(null);
-        quizScore   = 0;
-        document.getElementById('quiz-start-screen').style.display    = 'none';
-        document.getElementById('quiz-question-screen').style.display = 'block';
-        document.getElementById('quiz-result-screen').style.display   = 'none';
-        renderQuestion();
-    }
+    try {
+        const { data, error } = await supabase.storage.from('modules').list();
+        if (error) throw error;
 
-    function renderQuestion() {
-        const q     = quizQuestions[quizCurrent];
-        const total = quizQuestions.length;
-
-        document.getElementById('quiz-q-label').textContent      = `Question ${quizCurrent + 1} of ${total}`;
-        document.getElementById('quiz-progress-bar').style.width = `${((quizCurrent + 1) / total) * 100}%`;
-        document.getElementById('quiz-question-text').textContent = q.q;
-        document.getElementById('quiz-score-badge').textContent   = `Score: ${quizScore}`;
-
-        const choicesEl = document.getElementById('quiz-choices');
-        choicesEl.innerHTML = '';
-        ['A','B','C','D'].forEach((letter, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'quiz-choice';
-            if (quizAnswers[quizCurrent] === i) btn.classList.add('selected');
-            btn.innerHTML = `<span class="choice-letter">${letter}</span>${q.choices[i]}`;
-            btn.addEventListener('click', () => selectAnswer(i));
-            choicesEl.appendChild(btn);
+        window.studentModules = data.map(file => {
+            const { data: urlData } = supabase.storage.from('modules').getPublicUrl(file.name);
+            return {
+                id: file.id,
+                title: file.name.includes('_') ? file.name.split('_').slice(1).join('_') : file.name,
+                file_url: urlData.publicUrl
+            };
         });
 
-        const prevBtn = document.getElementById('quiz-prev-btn');
-        prevBtn.style.opacity = quizCurrent === 0 ? '0.3' : '1';
-        prevBtn.disabled      = quizCurrent === 0;
+        renderStudentModules();
+    } catch (err) {
+        console.error("Error loading student modules:", err.message);
+    }
+}
 
-        document.getElementById('quiz-next-btn').textContent =
-            quizCurrent === total - 1 ? 'Submit ✓' : 'Next →';
+function renderStudentModules() {
+    const detailedList = document.getElementById('dynamic-detailed-modules');
+    if (!detailedList) return;
+
+    detailedList.innerHTML = '';
+
+    if (window.studentModules.length === 0) {
+        detailedList.innerHTML = `<p class="text-center p-10 text-slate-400">No learning modules available yet.</p>`;
+        return;
     }
 
-    function selectAnswer(index) {
-        quizAnswers[quizCurrent] = index;
-        document.querySelectorAll('.quiz-choice').forEach((btn, i) => {
-            btn.classList.toggle('selected', i === index);
-            const letter = btn.querySelector('.choice-letter');
-            letter.style.background = i === index ? 'var(--blue)' : '';
-            letter.style.color      = i === index ? 'white'       : '';
-        });
-    }
+    window.studentModules.forEach((mod, index) => {
+        const section = document.createElement('section');
+        section.className = "modules-container";
+        section.style = "margin-bottom: 2rem; background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);";
+        
+        section.innerHTML = `
+            <div class="section-label" style="font-weight: bold; color: #4f46e5; font-size: 1.1rem; margin-bottom: 5px;">
+                Module ${index + 1}: ${mod.title}
+            </div>
+            <div class="section-sub" style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">Mathematics Learning Resource</div>
+            
+            <ul class="topic-list" style="list-style: none; padding: 0;">
+                <li class="topic-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; background: #f8fafc; border-radius: 8px; cursor: pointer; transition: all 0.2s;" 
+                    onclick="window.previewPDF('${mod.file_url}', '${mod.title}')">
+                    <span class="topic-dot" style="height: 10px; width: 10px; background: #ef4444; border-radius: 50%;"></span>
+                    <div style="flex-grow: 1;">
+                        <span style="font-weight: 600; color: #1e293b; display: block;">${mod.title}</span>
+                        <span style="font-size: 0.75rem; color: #2563eb;">📄 Open Lesson PDF</span>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </li>
+            </ul>
+        `;
+        detailedList.appendChild(section);
+    });
+}
 
-    function quizNext() {
-        if (quizAnswers[quizCurrent] === null) {
-            // window.toast is defined in chatbot.js (loaded on the same page)
-            window.toast('warning', 'Please select an answer first!');
-            return;
+/* ==========================================
+   PDF PREVIEW LOGIC (Full Screen Overlay)
+   ========================================== */
+window.previewPDF = function(url, title) {
+    const modal = document.getElementById('modal-preview-pdf');
+    const iframe = document.getElementById('pdf-viewer');
+    const titleHeader = document.getElementById('preview-title');
+
+    if (modal && iframe) {
+        titleHeader.innerText = title;
+        iframe.src = url;
+        
+        // Full screen styles para hindi mag-new tab
+        modal.style.display = 'flex'; 
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.zIndex = '9999';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.85)';
+        modal.style.justifyContent = 'center';
+        modal.style.alignItems = 'center';
+    } else {
+        // Fallback kung hindi mahanap yung modal elements
+        window.open(url, '_blank');
+    }
+};
+
+window.closeModal = function(id) {
+    const modal = document.getElementById(id);
+    if (modal) {
+        modal.style.display = 'none';
+        if (id === 'modal-preview-pdf') {
+            const iframe = document.getElementById('pdf-viewer');
+            if (iframe) iframe.src = ''; 
         }
-        if (quizCurrent < quizQuestions.length - 1) {
-            quizCurrent++;
-            renderQuestion();
-        } else {
-            submitQuiz();
-        }
     }
+};
 
-    function quizPrev() {
-        if (quizCurrent > 0) { quizCurrent--; renderQuestion(); }
-    }
-
-    function submitQuiz() {
-        quizScore = quizAnswers.reduce((acc, ans, i) =>
-            acc + (ans === quizQuestions[i].answer ? 1 : 0), 0);
-
-        const total = quizQuestions.length;
-        const pct   = Math.round((quizScore / total) * 100);
-
-        document.getElementById('quiz-question-screen').style.display = 'none';
-        document.getElementById('quiz-result-screen').style.display   = 'block';
-        document.getElementById('quiz-result-score').textContent      = `${quizScore}/${total}`;
-
-        let emoji = '😢', title = 'Keep Practicing!', msg = 'Review your modules and try again.';
-        if      (pct >= 90) { emoji = '🏆'; title = 'Outstanding!'; msg = 'Excellent work! You mastered the material.'; }
-        else if (pct >= 75) { emoji = '🎉'; title = 'Great Job!';   msg = 'You passed! Keep reviewing for mastery.';   }
-        else if (pct >= 50) { emoji = '👍'; title = 'Good Effort!'; msg = 'Almost there — review your weak areas.';    }
-
-        document.getElementById('quiz-result-emoji').textContent = emoji;
-        document.getElementById('quiz-result-title').textContent = title;
-        document.getElementById('quiz-result-msg').textContent   = `${pct}% — ${msg}`;
-    }
-
-    function retakeQuiz() {
-        document.getElementById('quiz-result-screen').style.display = 'none';
-        startQuiz();
-    }
-
-    // Expose quiz functions globally for Blade inline onclick attributes
-    window.startQuiz  = startQuiz;
-    window.quizNext   = quizNext;
-    window.quizPrev   = quizPrev;
-    window.retakeQuiz = retakeQuiz;
-
+// INITIAL LOAD
+document.addEventListener('DOMContentLoaded', () => {
+    loadModulesForStudent();
 });

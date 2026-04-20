@@ -7,6 +7,7 @@
  * Production:     npm run build
  */
 
+import { supabase } from './supabaseClient' // Siguraduhing tama ang path
 import Swal from 'sweetalert2';
 // SweetAlert2 CSS is loaded via CDN link in the blade file
 
@@ -50,25 +51,45 @@ const STUDENTS_PER_PAGE = 6;
 let studentPage = 1;
 
 /* ============================================================
-   NAVIGATION
+/* ============================================================
+   NAVIGATION (Updated with Modules)
    ============================================================ */
 function navigate(page) {
-    const allowed = ['home', 'students', 'progress', 'reports', 'profile'];
+    // 1. Idagdag ang 'modules' sa allowed list
+    const allowed = ['home', 'modules', 'students', 'progress', 'reports', 'profile'];
     if (!allowed.includes(page)) return;
 
+    // 2. Alisin ang 'active' class sa lahat
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
 
-    document.getElementById('page-' + page).classList.add('active');
+    // 3. I-activate ang tamang page at buttons
+    const targetPage = document.getElementById('page-' + page);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
     document.querySelectorAll('[data-page="' + page + '"]').forEach(b => b.classList.add('active'));
+    
     window.scrollTo(0, 0);
 
+    // 4. Tawagin ang kaukulang render function
     if (page === 'home')     renderHome();
+    if (page === 'modules')  renderModules(); // Idinagdag ito
     if (page === 'students') renderStudents();
     if (page === 'progress') renderProgress();
     if (page === 'reports')  renderReports();
     if (page === 'profile')  renderProfile();
+}
+
+/**
+ * Halimbawa ng Render function para sa Modules
+ * Dito mo kukunin ang data galing sa database (Laravel API)
+ */
+function renderModules() {
+    console.log("Loading modules...");
+    // Dito mo pwedeng tawagin ang fetch() para i-refresh ang table list
 }
 
 /* ============================================================
@@ -496,3 +517,179 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHome();
     renderStudents();
 });
+
+if (typeof window.modulesData === 'undefined') {
+    window.modulesData = [];
+}
+
+
+
+// Global storage
+window.modulesData = [];
+
+// ==========================================
+// 1. FETCH & PERSISTENCE (Refresh Fix)
+// ==========================================
+window.loadModulesFromCloud = async function() {
+    try {
+        const { data, error } = await supabase.storage.from('modules').list();
+        if (error) throw error;
+
+        window.modulesData = data.map(file => {
+            const { data: urlData } = supabase.storage.from('modules').getPublicUrl(file.name);
+            return {
+                id: file.id,
+                title: file.name.split('_').slice(1).join('_'),
+                file_name: file.name,
+                file_url: urlData.publicUrl
+            };
+        });
+        window.renderModules();
+    } catch (err) {
+        console.error("Error loading modules:", err.message);
+    }
+};
+
+// ==========================================
+// 2. RENDER FUNCTION
+// ==========================================
+window.renderModules = function() {
+    const listContainer = document.getElementById('teacher-modules-list');
+    if (!listContainer) return;
+
+    listContainer.innerHTML = '';
+
+    if (window.modulesData.length === 0) {
+        listContainer.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; border: 2px dashed #e2e8f0; border-radius: 10px;">
+                <p style="color: #94a3b8; font-size: 0.9rem;">No modules uploaded yet.</p>
+            </div>`;
+        return;
+    }
+
+    window.modulesData.forEach((mod) => {
+        const item = document.createElement('div');
+        item.style = "display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 8px;";
+        
+        item.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="background: #eef2ff; padding: 8px; border-radius: 8px; color: #4f46e5;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                </div>
+                <div style="text-align: left;">
+                    <h4 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #1e293b;">${mod.title}</h4>
+                    <p style="margin: 0; font-size: 0.75rem; color: #64748b;">PDF Document</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button onclick="window.previewPDF('${mod.file_url}', '${mod.title}')" style="padding: 6px 12px; background: white; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.8rem; color: #475569; font-weight: 600; cursor: pointer;">View</button>
+                <button onclick="window.renameModule('${mod.id}')" style="padding: 6px 12px; background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 6px; font-size: 0.8rem; color: #16a34a; cursor: pointer;">Rename</button>
+                <button onclick="window.deleteModule('${mod.id}', '${mod.file_name}')" style="padding: 6px 12px; background: #fff1f2; border: 1px solid #ffe4e6; border-radius: 6px; font-size: 0.8rem; color: #e11d48; cursor: pointer;">Delete</button>
+            </div>
+        `;
+        listContainer.appendChild(item);
+    });
+};
+
+// ==========================================
+// 3. PREVIEW & CLOSE LOGIC (Full Screen Fix)
+// ==========================================
+window.previewPDF = function(url, title) {
+    const modal = document.getElementById('modal-preview-pdf');
+    const iframe = document.getElementById('pdf-viewer');
+    const titleHeader = document.getElementById('preview-title');
+
+    if (modal && iframe) {
+        titleHeader.innerText = title;
+        iframe.src = url;
+        
+        // Isang buong screen overlay
+        modal.style.display = 'flex'; 
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.zIndex = '9999';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+        modal.style.justifyContent = 'center';
+        modal.style.alignItems = 'center';
+    }
+};
+
+window.closeModal = function(id) {
+    const modal = document.getElementById(id);
+    if (modal) {
+        modal.style.display = 'none';
+        
+        // I-reset ang iframe src para mawala ang loading sa background
+        if (id === 'modal-preview-pdf') {
+            const iframe = document.getElementById('pdf-viewer');
+            if (iframe) iframe.src = ''; 
+        }
+    }
+};
+
+// ==========================================
+// 4. UPLOAD, DELETE, RENAME
+// ==========================================
+window.handleUpload = async function(event) {
+    event.preventDefault();
+    const btn = document.getElementById('btn-upload-submit');
+    const fileInput = document.getElementById('m-file');
+    const titleInput = document.getElementById('m-title');
+    const file = fileInput.files[0];
+
+    if (!file) return alert("Pumili muna ng file!");
+
+    btn.innerText = "Uploading...";
+    btn.disabled = true;
+
+    try {
+        const rawFileName = `${Date.now()}_${titleInput.value || file.name}`;
+        const { error } = await supabase.storage.from('modules').upload(rawFileName, file);
+        if (error) throw error;
+
+        alert("Success! Uploaded to Supabase.");
+        window.closeModal('modal-upload-module');
+        event.target.reset(); 
+        window.loadModulesFromCloud();
+    } catch (err) {
+        alert("Error: " + err.message);
+    } finally {
+        btn.innerText = "Upload Now";
+        btn.disabled = false;
+    }
+};
+
+window.deleteModule = async function(id, fileName) {
+    if (!confirm("Sigurado ka bang buburahin ito?")) return;
+    try {
+        const { error } = await supabase.storage.from('modules').remove([fileName]);
+        if (error) throw error;
+        window.loadModulesFromCloud();
+    } catch (err) {
+        alert("Delete Error: " + err.message);
+    }
+};
+
+window.renameModule = function(id) {
+    const newTitle = prompt("Enter new title for this module (Display only):");
+    if (!newTitle) return;
+    const mod = window.modulesData.find(m => m.id == id);
+    if (mod) {
+        mod.title = newTitle;
+        window.renderModules();
+    }
+};
+
+window.openModal = (id) => {
+    const modal = document.getElementById(id);
+    if (modal) modal.style.display = 'flex';
+};
+
+// INITIAL LOAD
+document.addEventListener('DOMContentLoaded', () => {
+    window.loadModulesFromCloud();
+});
+
