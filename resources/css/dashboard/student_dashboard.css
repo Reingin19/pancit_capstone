@@ -874,27 +874,210 @@ html, body {
 /* ================================
    QUIZ CHOICES
    ================================ */
-.quiz-choice {
-    display: flex; align-items: center; gap: 12px;
-    padding: 13px 16px; border-radius: 10px;
-    border: 1.5px solid var(--border); background: white;
-    font-family: inherit; font-size: 13px; font-weight: 600;
-    color: var(--text-2); cursor: pointer; text-align: left;
-    transition: all 0.18s; width: 100%;
+/* ==========================================
+   CSS VARIABLES (I-paste ito sa itaas)
+   ========================================== */
+:root {
+    --blue: #4f46e5;
+    --blue-mid: #6366f1;
+    --blue-light: #eef2ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --border: #e2e8f0;
+    --text-2: #475569;
 }
-.quiz-choice:hover { border-color: var(--blue-mid); background: var(--blue-light); color: var(--blue); }
-.quiz-choice.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
-.quiz-choice.correct  { border-color: var(--green); background: var(--green-light); color: #065f46; pointer-events:none; }
-.quiz-choice.wrong    { border-color: var(--red);   background: var(--red-light);   color: #991b1b; pointer-events:none; }
-.quiz-choice.reveal-correct { border-color: var(--green); background: var(--green-light); color: #065f46; pointer-events:none; }
+
+/* ==========================================
+   QUIZ CHOICES STYLING
+   ========================================== */
+.quiz-choice {
+    display: flex; 
+    align-items: center; 
+    gap: 15px;
+    padding: 14px 18px; 
+    border-radius: 12px;
+    border: 2px solid var(--border); 
+    background: white;
+    font-family: inherit; 
+    font-size: 14px; 
+    font-weight: 600;
+    color: var(--text-2); 
+    cursor: pointer; 
+    text-align: left;
+    transition: all 0.2s ease; 
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.quiz-choice:hover { 
+    border-color: var(--blue-mid); 
+    background: var(--blue-light); 
+    transform: translateX(5px);
+}
+
+/* Kapag tama ang napiling sagot */
+.quiz-choice.correct { 
+    border-color: var(--green); 
+    background: var(--green-light); 
+    color: #065f46; 
+    pointer-events: none; 
+}
+
+/* Kapag mali ang napiling sagot */
+.quiz-choice.wrong { 
+    border-color: var(--red); 
+    background: var(--red-light); 
+    color: #991b1b; 
+    pointer-events: none; 
+}
+
+/* Styling para sa bilog na letter (A, B, C, D) */
+.choice-letter {
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%; 
+    flex-shrink: 0;
+    background: #f1f5f9; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 12px; 
+    font-weight: 800;
+    transition: all 0.18s;
+    border: 1px solid var(--border);
+}
+
+/* Magbabago ang kulay ng letter depende sa status */
+.quiz-choice.correct .choice-letter { 
+    background: var(--green); 
+    color: white; 
+    border-color: var(--green);
+}
+
+.quiz-choice.wrong .choice-letter { 
+    background: var(--red); 
+    color: white; 
+    border-color: var(--red);
+}
+
+/* ==========================================
+   CODECHUM-STYLE DROPDOWN BUTTONS
+   ========================================== */
+.codechum-flow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+.flow-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    border: 1.5px solid #e2e8f0;
+    padding: 12px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flow-btn:hover {
+    border-color: var(--blue);
+    background: var(--blue-light);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.flow-btn.lesson {
+    background: #f5f3ff;
+    border-color: #ddd6fe;
+}
+
+.flow-btn.lesson:hover {
+    background: #ede9fe;
+    border-color: #8b5cf6;
+}
+
+.flow-btn .icon { 
+    font-size: 1.4rem; 
+    margin-bottom: 6px; 
+}
+
+.flow-btn .label { 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+    color: #475569; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+/* Styling para sa Quiz Choices */
+.quiz-choice {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 16px 20px;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    text-align: left;
+}
+
+.quiz-choice:hover {
+    border-color: #4f46e5;
+    background-color: #f8fafc;
+    transform: translateY(-2px);
+}
 
 .choice-letter {
-    width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
-    background: var(--border); display: flex; align-items: center;
-    justify-content: center; font-size: 11px; font-weight: 800;
-    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: #f1f5f9;
+    color: #4f46e5;
+    font-weight: 800;
+    border-radius: 50%;
+    margin-right: 15px;
+    font-size: 0.9rem;
 }
-.quiz-choice.selected .choice-letter { background: var(--blue); color: white; }
-.quiz-choice.correct  .choice-letter { background: var(--green); color: white; }
-.quiz-choice.wrong    .choice-letter { background: var(--red);   color: white; }
-.quiz-choice.reveal-correct .choice-letter { background: var(--green); color: white; }
+
+/* Feedback Colors pag sumagot na */
+.quiz-choice.correct {
+    background-color: #dcfce7 !important; /* Green */
+    border-color: #22c55e !important;
+    color: #166534;
+}
+
+.quiz-choice.correct .choice-letter {
+    background: #22c55e;
+    color: white;
+}
+
+.quiz-choice.wrong {
+    background-color: #fee2e2 !important; /* Red */
+    border-color: #ef4444 !important;
+    color: #991b1b;
+}
+
+.quiz-choice.wrong .choice-letter {
+    background: #ef4444;
+    color: white;
+}
+
+.page {
+    display: none; /* Tago lahat ng pages by default */
+}
+
+.page.active {
+    display: block !important; /* Lalabas lang ang may active class */
+}

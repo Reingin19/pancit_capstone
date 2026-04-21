@@ -197,56 +197,76 @@
                 </div>
             </div>
 
-            <!-- ===== MODULES PAGE ===== -->
-            <div class="page" id="page-modules">
-                <div class="hero-section">
-                    <h1 class="welcome-title">Learning Modules</h1>
-                    <p class="welcome-subtitle">Explore topics and start learning</p>
-                </div>
+           <div class="page" id="page-modules">
+    <div class="hero-section">
+        <h1 class="welcome-title">Learning Modules</h1>
+        <p class="welcome-subtitle">Explore topics and start learning</p>
+    </div>
 
-                <section class="modules-container">
-                    <div class="section-label">Module 1: Sequences and Series</div>
-                    <div class="section-sub">0% complete · 0 of 6 topics done</div>
-                    <ul class="topic-list">
-                        <li class="topic-item" style="cursor: pointer;" onclick="openArithmeticModule()">
-    <span class="topic-dot"></span>Arithmetic Sequences
+   <section class="modules-container">
+    <div class="section-label">Module 1: Sequences and Series</div>
+    <div class="section-sub">0% complete · 0 of 6 topics done</div>
+    
+    <ul class="topic-list">
+        <li class="topic-item" style="display: block; cursor: pointer; padding: 0;">
+    <div onclick="window.toggleArithmeticContent()" style="display: flex; align-items: center; width: 100%; padding: 15px;">
+        <span class="topic-dot"></span>
+        <span style="flex-grow: 1; font-weight: 600; color: #1e293b;">Arithmetic Sequences</span>
+        <span id="arrow-arithmetic" style="transition: transform 0.3s ease;">▼</span>
+    </div>
+
+    <div id="arithmetic-dropdown" style="display: none; background-color: #f0ebf8; border-top: 1px solid #e2e8f0; width: 100%;">
+        <div style="width: 100%; min-height: 650px;">
+            <iframe 
+                id="arithmetic-frame" 
+                src="" 
+                style="width: 100%; height: 650px; border: none; display: block;"
+                title="Arithmetic Assessment">
+            </iframe>
+        </div>
+    </div>
 </li>
-                        <li class="topic-item"><span class="topic-dot"></span>Geometric Sequences</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Fibonacci Sequences</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Harmonic Sequences</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Infinite Sequences</li>
-                
-                
-                
-                
-                        <li class="topic-item"><span class="topic-dot"></span>Applications of Sequences</li>
-                    </ul>
-                </section>
 
-                <section class="modules-container">
-                    <div class="section-label">Module 2: Polynomials and Polynomial Equations</div>
-                    <div class="section-sub">0% complete · 0 of 5 topics done</div>
-                    <ul class="topic-list">
-                        <li class="topic-item"><span class="topic-dot"></span>Division of Polynomials</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Operations on Polynomials</li>
-                        <li class="topic-item"><span class="topic-dot"></span>The Remainder Theorem and Factor Theorem</li>
-           
-                    </ul>
-                </section>
+        <li class="topic-item"><span class="topic-dot"></span>Geometric Sequences</li>
+        <li class="topic-item"><span class="topic-dot"></span>Fibonacci Sequences</li>
+        <li class="topic-item"><span class="topic-dot"></span>Harmonic Sequences</li>
+        <li class="topic-item"><span class="topic-dot"></span>Infinite Sequences</li>
+        <li class="topic-item"><span class="topic-dot"></span>Applications of Sequences</li>
+    </ul>
+</section>
 
-                <section class="modules-container">
-                    <div class="section-label">Module 3: Advanced Equations and Functions</div>
-                    <div class="section-sub">0% complete · 0 of 5 topics done</div>
-                    <ul class="topic-list">
-                        <li class="topic-item"><span class="topic-dot"></span>Rational Equations</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Radical Equations</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Exponential Functions</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Logarithmic Functions</li>
-                        <li class="topic-item"><span class="topic-dot"></span>Systems of Equations</li>
-                    </ul>
-                </section>
-            </div>
+<div id="dynamic-detailed-modules"></div>
 
+<script>
+/**
+ * Logic para sa Google Form style integration.
+ * Sinisigurado nito na mag-lo-load lang ang iframe kapag binuksan ang dropdown.
+ */
+window.toggleArithmeticContent = function() {
+    const dropdown = document.getElementById('arithmetic-dropdown');
+    const iframe = document.getElementById('arithmetic-frame');
+    const arrow = document.getElementById('arrow-arithmetic');
+    
+    // Path correction based on Laravel public structure
+    const activityPath = "activities/arithmetic_sequences.php?mode=pre";
+
+    if (dropdown.style.display === "none" || dropdown.style.display === "") {
+        // I-load ang source kung wala pa itong laman
+        if (iframe.src === "" || iframe.src.includes('window.location.href')) {
+            iframe.src = activityPath;
+        }
+        
+        dropdown.style.display = "block";
+        arrow.style.transform = "rotate(180deg)";
+        arrow.style.color = "#673ab7"; // Google Form Purple
+    } else {
+        dropdown.style.display = "none";
+        arrow.style.transform = "rotate(0deg)";
+        arrow.style.color = ""; 
+    }
+};
+</script>
+    </div>
             <!-- ===== PROGRESS PAGE ===== -->
             <div class="page" id="page-progress">
                 <div class="hero-section">
@@ -615,6 +635,28 @@
 <form id="logout-form" method="POST" action="{{ route('student.logout') }}" style="display:none;">
     @csrf
 </form>
+<div class="page" id="page-test">
+    <div style="max-width: 600px; margin: 40px auto; padding: 20px;">
+        <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            
+            <div id="quiz-q-label" style="color: #4f46e5; font-weight: bold; margin-bottom: 10px;">
+                Question 1 of 10
+            </div>
 
+            <h2 id="quiz-question-text" style="color: #1e293b; margin-bottom: 25px; font-size: 1.5rem;">
+                Loading...
+            </h2>
+
+            <div id="quiz-choices" style="display: grid; gap: 12px;">
+                </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <button onclick="window.navigate('modules')" style="color: #64748b; background: none; border: none; cursor: pointer;">
+                    Cancel and Return
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
